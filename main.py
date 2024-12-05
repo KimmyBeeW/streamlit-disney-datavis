@@ -52,7 +52,7 @@ st.title("Disney Stocks and Disney Brands Box Office Numbers")  # app title
 with st.sidebar:  # interactive side bar
     brands = st.radio('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
 
-tab1, tab2, tab3, tab4 = st.tabs(["Disney Stocks", "2", "3", "4"])
+tab1, tab2, tab3, tab4 = st.tabs(["Disney Stocks", "Gross Income", "3", "4"])
 with tab1:
     # slider for range of the graph dates
     startyear_input = st.slider('Start Year', min_value = 1962, max_value=2024, value=2021)
@@ -71,5 +71,18 @@ with tab1:
                   labels={'Price': 'Stock Price', 'Type': 'Price Type'},
                   color_discrete_map=val_colors)
     st.plotly_chart(fig)
-
+with tab2:
+    df = movies.copy()
+    df['Gross Income'] = df['Gross Income'].replace('[$,]', '', regex=True).astype(float)
+    studio_gross = df.groupby('Brand')['Gross Income'].sum().reset_index()
+    
+    fig = px.bar( # plotly bar chart
+        studio_gross, x='Brand', y='Gross Income',
+        title="Total Gross Income per Brand",
+        labels={'Gross Income': 'Total Gross Income (B$)', 'Brand': 'Brand'},
+        color='Brand',
+        # color_discrete_sequence=px.colors.sequential.Viridis
+    )
+    fig.update_layout(xaxis=dict(tickangle=45))
+    st.plotly_chart(fig)
 
