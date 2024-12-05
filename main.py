@@ -59,7 +59,16 @@ with tab1:
     
     filt_stocks = stocks[(stocks['Date'] >= pd.Timestamp(startyear_input, 1, 1)) & 
                          (stocks['Date'] <= pd.Timestamp(endyear_input, 12, 31))].copy()
-    fig=px.line(filt_stocks, x='Date', y='Close', title='Disney Stock Prices Over Time')
+    
+    melted_stocks = filt_stocks.melt(id_vars='Date', 
+                                     value_vars=['Close', 'Open', 'High', 'Low'], 
+                                     var_name='Type', 
+                                     value_name='Price ($)')
+    
+    # Create a line chart with Plotly Express
+    fig = px.line(melted_stocks, x='Date', y='Price ($)', color='Type',
+                  title='Disney Stock Prices Over Time',
+                  labels={'Price': 'Stock Price', 'Type': 'Price Type'})
     st.plotly_chart(fig)
 
 
