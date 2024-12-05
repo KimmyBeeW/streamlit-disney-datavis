@@ -49,9 +49,6 @@ movies, marvel, lucas, pixar, animation, channel, nature, toon, bluesky = load_m
 # The APP implementation (needs at least six interactive elements)
 st.title("Disney Stocks and Disney Brands Box Office Numbers")  # app title
 
-with st.sidebar:  # interactive side bar
-    brands = st.radio('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
-
 tab1, tab2, tab3, tab4 = st.tabs(["Disney Stocks", "Gross Income", "3", "4"])
 with tab1:
     # slider for range of the graph dates
@@ -84,4 +81,7 @@ with tab2:
     )
     fig.update_layout(xaxis=dict(tickangle=45))
     st.plotly_chart(fig)
+with tab3:
+    brands = st.radio('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
+
 
