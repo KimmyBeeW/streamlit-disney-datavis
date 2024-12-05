@@ -23,31 +23,31 @@ def load_stock_data():
 def load_movie_data():
     url = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disney_owned_movies.csv'
     movies = pd.read_csv(url)
-    movies['Date'] = pd.to_datetime(movies['Date'], errors='coerce')
+    movies['Release Dates'] = pd.to_datetime(movies['Release Dates'], errors='coerce')
     url1 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/marvel_movies.csv'
     marvel = pd.read_csv(url1)
-    marvel['Date'] = pd.to_datetime(marvel['Date'], errors='coerce')
+    marvel['Release Dates'] = pd.to_datetime(marvel['Release Dates'], errors='coerce')
     url2 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/lucasfilm_movies.csv'
     lucas = pd.read_csv(url2)
-    lucas['Date'] = pd.to_datetime(lucas['Date'], errors='coerce')
+    lucas['Release Dates'] = pd.to_datetime(lucas['Release Dates'], errors='coerce')
     url3 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/pixar_movies.csv'
     pixar = pd.read_csv(url3)
-    pixar['Date'] = pd.to_datetime(pixar['Date'], errors='coerce')
+    pixar['Release Dates'] = pd.to_datetime(pixar['Release Dates'], errors='coerce')
     url4 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disney_animation_movies.csv'
     animation = pd.read_csv(url4)
-    animation['Date'] = pd.to_datetime(animation['Date'], errors='coerce')
+    animation['Release Dates'] = pd.to_datetime(animation['Release Dates'], errors='coerce')
     url5 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disney_channel_movies.csv'
     channel = pd.read_csv(url5)
-    channel['Date'] = pd.to_datetime(channel['Date'], errors='coerce')
+    channel['Release Dates'] = pd.to_datetime(channel['Release Dates'], errors='coerce')
     url6 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disneynature_movies.csv'
     nature = pd.read_csv(url6)
-    nature['Date'] = pd.to_datetime(nature['Date'], errors='coerce')
+    nature['Release Dates'] = pd.to_datetime(nature['Release Dates'], errors='coerce')
     url7 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disneytoon_movies.csv'
     toon = pd.read_csv(url7)
-    toon['Date'] = pd.to_datetime(toon['Date'], errors='coerce')
+    toon['Release Dates'] = pd.to_datetime(toon['Release Dates'], errors='coerce')
     url8 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/blue_sky_movies.csv'
     bluesky = pd.read_csv(url8)
-    bluesky['Date'] = pd.to_datetime(bluesky['Date'], errors='coerce')
+    bluesky['Release Dates'] = pd.to_datetime(bluesky['Release Dates'], errors='coerce')
     return movies, marvel, lucas, pixar, animation, channel, nature, toon, bluesky
 
 stocks = load_stock_data()
