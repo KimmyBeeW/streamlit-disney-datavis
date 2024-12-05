@@ -13,9 +13,11 @@ def load_stock_data():
     url = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/all_disney_stocks.csv'
     stocks = pd.read_csv(url, index_col = 0)
     stocks = stocks[~stocks.apply(lambda row: row.astype(str).str.contains('Dividend', na=False)).any(axis=1)]
-    stocks['Date'] = pd.to_datetime(stocks['Date'])
-    stocks.set_index('Date', inplace=True)
+    stocks['Date'] = pd.to_datetime(stocks['Date'], errors='coerce')
+    
     stocks['Open'] = pd.to_numeric(stocks['Open'], errors='coerce')
+    stocks['Close'] = pd.to_numeric(stocks['Close'], errors='coerce')
+    stocks.set_index('Date', inplace=False)
     return stocks
 
 @st.cache_data
