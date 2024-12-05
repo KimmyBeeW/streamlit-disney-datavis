@@ -46,4 +46,7 @@ st.title("Disney Stocks and Disney Brands Box Office Numbers")
 
 with st.sidebar:
     year_input = st.slider('Year', min_value = 1962, max_value=2024, value=2019)
-    brands = st.radio('Brand name', ['Marvel', 'LucasFilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'DisneyToon', 'Disneynature', 'Blue Sky'])
+    brands = st.pills('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
+
+tab1, tab2, tab3, tab4 = st.tabs(["Names", "Years", "Sex Dist.", "Top Names by Decade"])
+
