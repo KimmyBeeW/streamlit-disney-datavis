@@ -55,7 +55,7 @@ tab1, tab2, tab3, tab4 = st.tabs(["Disney Stocks", "2", "3", "4"])
 with tab1:
     startyear_input = st.slider('Start Year', min_value = 1962, max_value=2024, value=2019)
     endyear_input = st.slider('End Year', min_value = 1962, max_value=2024, value=2024)
-    allstocks = stocks.copy
+    allstocks = stocks[endyear_input>stocks['Date']>startyear_input].copy
     fig=px.line(allstocks, x='Date', y='Close')
     st.plotly_chart(fig)
 
