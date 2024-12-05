@@ -23,33 +23,56 @@ def load_stock_data():
 def load_movie_data():
     url = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disney_owned_movies.csv'
     movies = pd.read_csv(url)
+    movies['Date'] = pd.to_datetime(movies['Date'], errors='coerce')
     url1 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/marvel_movies.csv'
     marvel = pd.read_csv(url1)
+    marvel['Date'] = pd.to_datetime(marvel['Date'], errors='coerce')
     url2 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/lucasfilm_movies.csv'
     lucas = pd.read_csv(url2)
+    lucas['Date'] = pd.to_datetime(lucas['Date'], errors='coerce')
     url3 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/pixar_movies.csv'
     pixar = pd.read_csv(url3)
+    pixar['Date'] = pd.to_datetime(pixar['Date'], errors='coerce')
     url4 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disney_animation_movies.csv'
     animation = pd.read_csv(url4)
+    animation['Date'] = pd.to_datetime(animation['Date'], errors='coerce')
     url5 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disney_channel_movies.csv'
     channel = pd.read_csv(url5)
+    channel['Date'] = pd.to_datetime(channel['Date'], errors='coerce')
     url6 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disneynature_movies.csv'
     nature = pd.read_csv(url6)
+    nature['Date'] = pd.to_datetime(nature['Date'], errors='coerce')
     url7 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/disneytoon_movies.csv'
     toon = pd.read_csv(url7)
+    toon['Date'] = pd.to_datetime(toon['Date'], errors='coerce')
     url8 = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/blue_sky_movies.csv'
     bluesky = pd.read_csv(url8)
+    bluesky['Date'] = pd.to_datetime(bluesky['Date'], errors='coerce')
     return movies, marvel, lucas, pixar, animation, channel, nature, toon, bluesky
 
 stocks = load_stock_data()
 movies, marvel, lucas, pixar, animation, channel, nature, toon, bluesky = load_movie_data()
-
+brand_datasets = {
+    'Marvel': marvel,
+    'Lucasfilm': lucas,
+    'Pixar': pixar,
+    'Walt Disney Animation': animation,
+    'Disney Channel': channel,
+    'Disneynature': nature,
+    'Disneytoon Studios': toon,
+    'Blue Sky Studios': bluesky
+}
 
 
 # The APP implementation (needs at least six interactive elements)
 st.title("Disney Stocks and Disney Brands Box Office Numbers")  # app title
 
-tab1, tab2, tab3, tab4 = st.tabs(["Disney Stocks", "Gross Income", "3", "4"])
+with st.sidebar:  # interactive side bar
+    brands = st.radio('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
+
+data = brand_datasets[brands]
+
+tab1, tab2, tab3 = st.tabs(["Disney Stocks", "Gross Income", "Brand Summaries"])
 with tab1:
     # slider for range of the graph dates
     startyear_input = st.slider('Start Year', min_value = 1962, max_value=2024, value=2021)
@@ -82,6 +105,28 @@ with tab2:
     fig.update_layout(xaxis=dict(tickangle=45))
     st.plotly_chart(fig)
 with tab3:
-    brands = st.radio('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
+    st.subheader(f"Summary Statistics: {brands}")
+    
+    # Ensure the dataset has the necessary columns
+    if 'Release Dates' in data.columns and 'Opening Earnings' in data.columns:
+        # Convert Release Dates to datetime if not already
+        data['Release Dates'] = pd.to_datetime(data['Release Dates'], errors='coerce')
 
+        # Create scatter plot
+        fig = px.scatter(
+            data,
+            x='Release Dates',
+            y='Opening Earnings',
+            hover_data=['Title'],  # Add movie title as hover information
+            title=f"Opening Earnings vs. Release Dates for {brands}",
+            labels={'Opening Earnings': 'Opening Earnings (M$)', 'Release Dates': 'Release Dates'},
+            color='Opening Earnings',  # Optional: Add color based on the gross
+            color_continuous_scale='Viridis'
+        )
+        fig.update_traces(marker=dict(size=8))  # Adjust marker size
+
+        # Display the chart
+        st.plotly_chart(fig)
+    else:
+        st.warning("The selected dataset does not contain the required columns: 'Release Date' and 'Opening Week Gross'.")
 
