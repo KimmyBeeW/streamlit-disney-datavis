@@ -11,7 +11,11 @@ import streamlit as st
 @st.cache_data
 def load_stock_data():
     url = 'https://github.com/KimmyBeeW/Disney-Web-Scraping/raw/main/datasets/all_disney_stocks.csv'
-    stocks = pd.read_csv(url)
+    stocks = pd.read_csv(url, index_col = 0)
+    stocks = stocks[~stocks.apply(lambda row: row.astype(str).str.contains('Dividend', na=False)).any(axis=1)]
+    stocks['Date'] = pd.to_datetime(stocks['Date'])
+    stocks.set_index('Date', inplace=True)
+    stocks['Open'] = pd.to_numeric(stocks['Open'], errors='coerce')
     return stocks
 
 @st.cache_data
@@ -41,12 +45,18 @@ movies, marvel, lucas, pixar, animation, channel, nature, toon, bluesky = load_m
 
 
 
-# The APP
-st.title("Disney Stocks and Disney Brands Box Office Numbers")
+# The APP implementation (needs at least six interactive elements)
+st.title("Disney Stocks and Disney Brands Box Office Numbers")  # app title
 
-with st.sidebar:
-    year_input = st.slider('Year', min_value = 1962, max_value=2024, value=2019)
-    brands = st.pills('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
+with st.sidebar:  # interactive side bar
+    brands = st.radio('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
 
-tab1, tab2, tab3, tab4 = st.tabs(["Names", "Years", "Sex Dist.", "Top Names by Decade"])
+tab1, tab2, tab3, tab4 = st.tabs(["Disney Stocks", "2", "3", "4"])
+with tab1:
+    startyear_input = st.slider('Start Year', min_value = 1962, max_value=2024, value=2019)
+    endyear_input = st.slider('End Year', min_value = 1962, max_value=2024, value=2024)
+    allstocks = stocks.copy
+    fig=px.line(allstocks, x='Date', y='Close')
+    st.plotly_chart(fig)
+
 
