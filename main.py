@@ -54,19 +54,18 @@ with st.sidebar:  # interactive side bar
 
 tab1, tab2, tab3, tab4 = st.tabs(["Disney Stocks", "2", "3", "4"])
 with tab1:
+    # slider for range of the graph dates
     startyear_input = st.slider('Start Year', min_value = 1962, max_value=2024, value=2021)
     endyear_input = st.slider('End Year', min_value = 1962, max_value=2024, value=2024)
-    
     filt_stocks = stocks[(stocks['Date'] >= pd.Timestamp(startyear_input, 1, 1)) & 
                          (stocks['Date'] <= pd.Timestamp(endyear_input, 12, 31))].copy()
-    
+    # make it possible to see all four lines
     mlt_stocks = filt_stocks.melt(id_vars='Date', value_vars=['Close', 'Open', 'High', 'Low'], 
                                      var_name='Type', value_name='Price ($)')
-    
+    # custom colors
     val_colors = {'High': '#29b6f6', 'Low': '#a80930',
                      'Close': '#efb71d', 'Open': '#2bb007'}
-    
-    # Create a line chart with Plotly Express
+    # plot the stocks
     fig = px.line(mlt_stocks, x='Date', y='Price ($)', color='Type',
                   title='Disney Stock Prices Over Time',
                   labels={'Price': 'Stock Price', 'Type': 'Price Type'},
