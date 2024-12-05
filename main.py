@@ -121,7 +121,7 @@ with tab3:
             hover_data=['Title', 'Gross Income', 'Max Theaters', 'Studio'],  # add movie title etc as hover information
             title=f"Opening Earnings vs. Release Dates for {brands}",
             labels={'Opening Earnings': 'Opening Earnings (M$)', 'Release Dates': 'Release Date'},
-            color='Opening Earnings',  # Optional: add color based on the gross
+            color='Max Theaters',  # Optional: add color
             color_continuous_scale='Viridis'
         )
         fig.update_traces(marker=dict(size=8))  # adjust marker size
