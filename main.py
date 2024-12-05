@@ -14,7 +14,6 @@ def load_stock_data():
     stocks = pd.read_csv(url, index_col = 0)
     stocks = stocks[~stocks.apply(lambda row: row.astype(str).str.contains('Dividend', na=False)).any(axis=1)]
     stocks['Date'] = pd.to_datetime(stocks['Date'], errors='coerce')
-    
     stocks['Open'] = pd.to_numeric(stocks['Open'], errors='coerce')
     stocks['Close'] = pd.to_numeric(stocks['Close'], errors='coerce')
     stocks.set_index('Date', inplace=False)
@@ -55,10 +54,11 @@ with st.sidebar:  # interactive side bar
 
 tab1, tab2, tab3, tab4 = st.tabs(["Disney Stocks", "2", "3", "4"])
 with tab1:
-    startyear_input = st.slider('Start Year', min_value = 1962, max_value=2024, value=2019)
+    startyear_input = st.slider('Start Year', min_value = 1962, max_value=2024, value=2021)
     endyear_input = st.slider('End Year', min_value = 1962, max_value=2024, value=2024)
     
-    filt_stocks = stocks[(stocks['Date'] >= str(startyear_input)) & (stocks['Date'] <= str(endyear_input))].copy()
+    filt_stocks = stocks[(stocks['Date'] >= pd.Timestamp(startyear_input, 1, 1)) & 
+                         (stocks['Date'] <= pd.Timestamp(endyear_input, 12, 31))].copy()
     fig=px.line(filt_stocks, x='Date', y='Close', title='Disney Stock Prices Over Time')
     st.plotly_chart(fig)
 
