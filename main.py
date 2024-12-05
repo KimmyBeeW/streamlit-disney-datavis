@@ -59,7 +59,8 @@ brand_datasets = {
     'Disney Channel': channel,
     'Disneynature': nature,
     'Disneytoon Studios': toon,
-    'Blue Sky Studios': bluesky
+    'Blue Sky Studios': bluesky,
+    'All 8 Brands from BoxMojo': movies
 }
 
 
@@ -67,7 +68,8 @@ brand_datasets = {
 st.title("Disney Stocks and Disney Brands Box Office Numbers")  # app title
 
 with st.sidebar:  # interactive side bar
-    brands = st.radio('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios'])
+    brands = st.radio('Brand name', ['Marvel', 'Lucasfilm', 'Pixar', 'Walt Disney Animation', 'Disney Channel', 
+                                     'Disneytoon Studios', 'Disneynature', 'Blue Sky Studios', 'All 8 Brands from BoxMojo'])
 
 data = brand_datasets[brands]
 
@@ -106,26 +108,24 @@ with tab2:
 with tab3:
     st.subheader(f"Summary Statistics: {brands}")
     
-    # Ensure the dataset has the necessary columns
+    # dataset has the necessary columns
     if 'Release Dates' in data.columns and 'Opening Earnings' in data.columns:
-        # Convert Release Dates to datetime if not already
+        # convert Release Dates to datetime if not already
         data['Release Dates'] = pd.to_datetime(data['Release Dates'], errors='coerce')
 
-        # Create scatter plot
+        # create scatter plot
         fig = px.scatter(
             data,
             x='Release Dates',
             y='Opening Earnings',
-            hover_data=['Title', 'Gross Income', 'Max Theaters', 'Studio'],  # Add movie title as hover information
+            hover_data=['Title', 'Gross Income', 'Max Theaters', 'Studio'],  # add movie title etc as hover information
             title=f"Opening Earnings vs. Release Dates for {brands}",
             labels={'Opening Earnings': 'Opening Earnings (M$)', 'Release Dates': 'Release Date'},
-            color='Opening Earnings',  # Optional: Add color based on the gross
+            color='Opening Earnings',  # Optional: add color based on the gross
             color_continuous_scale='Viridis'
         )
-        fig.update_traces(marker=dict(size=8))  # Adjust marker size
-
-        # Display the chart
-        st.plotly_chart(fig)
+        fig.update_traces(marker=dict(size=8))  # adjust marker size
+        st.plotly_chart(fig)  # show figure
     else:
         st.warning("The selected dataset does not contain the required columns: 'Release Date' and 'Opening Week Gross'.")
 
