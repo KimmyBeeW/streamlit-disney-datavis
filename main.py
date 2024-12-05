@@ -63,7 +63,7 @@ with tab1:
     mlt_stocks = filt_stocks.melt(id_vars='Date', value_vars=['Close', 'Open', 'High', 'Low'], 
                                      var_name='Type', value_name='Price ($)')
     
-    val_colors = {'High': 'blue', 'Low': 'red',
+    val_colors = {'High': '#29b6f6', 'Low': 'red',
                      'Close': 'yellow', 'Open': 'green'}
     
     # Create a line chart with Plotly Express
