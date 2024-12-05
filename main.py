@@ -116,9 +116,9 @@ with tab3:
             data,
             x='Release Dates',
             y='Opening Earnings',
-            hover_data=['Title'],  # Add movie title as hover information
+            hover_data=['Title', 'Gross Income', 'Max Theaters', 'Studio'],  # Add movie title as hover information
             title=f"Opening Earnings vs. Release Dates for {brands}",
-            labels={'Opening Earnings': 'Opening Earnings (M$)', 'Release Dates': 'Release Dates'},
+            labels={'Opening Earnings': 'Opening Earnings (M$)', 'Release Dates': 'Release Date'},
             color='Opening Earnings',  # Optional: Add color based on the gross
             color_continuous_scale='Viridis'
         )
