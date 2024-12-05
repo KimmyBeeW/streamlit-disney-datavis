@@ -80,8 +80,7 @@ with tab2:
         studio_gross, x='Brand', y='Gross Income',
         title="Total Gross Income per Brand",
         labels={'Gross Income': 'Total Gross Income (B$)', 'Brand': 'Brand'},
-        color='Brand',
-        # color_discrete_sequence=px.colors.sequential.Viridis
+        color='Brand'
     )
     fig.update_layout(xaxis=dict(tickangle=45))
     st.plotly_chart(fig)
